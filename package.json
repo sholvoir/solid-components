@@ -1,6 +1,6 @@
 {
   "name": "@sholvoir/components",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,18 +23,18 @@
     "vite-plugin-solid": "^2.11.10"
   },
   "exports": {
-    "./button-base": "./src/button-base.tsx",
-    "./button-ripple": "./src/button-ripple.tsx",
-    "./checkbox": "./src/checkbox.tsx",
-    "./dropdown": "./src/dropdown.tsx",
-    "./input-number": "./src/input-number.tsx",
-    "./input-simple": "./src/input-simple.tsx",
-    "./input-text": "./src/input-text.tsx",
-    "./input-textarea": "./src/input-textarea.tsx",
-    "./list": "./src/list.tsx",
-    "./select-multi": "./src/select-multi.tsx",
-    "./select-single": "./src/select-single.tsx",
-    "./tab": "./src/tab.tsx",
-    "./tailwind.css": "./src/tailwind.css"
+    "./button-base": "./components/button-base.tsx",
+    "./button-ripple": "./components/button-ripple.tsx",
+    "./checkbox": "./components/checkbox.tsx",
+    "./dropdown": "./components/dropdown.tsx",
+    "./input-number": "./components/input-number.tsx",
+    "./input-simple": "./components/input-simple.tsx",
+    "./input-text": "./components/input-text.tsx",
+    "./input-textarea": "./components/input-textarea.tsx",
+    "./list": "./components/list.tsx",
+    "./select-multi": "./components/select-multi.tsx",
+    "./select-single": "./components/select-single.tsx",
+    "./tab": "./components/tab.tsx",
+    "./tailwind.css": "./components/tailwind.css"
   }
 }
