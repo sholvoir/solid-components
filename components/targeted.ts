@@ -10,7 +10,11 @@ export interface InputTargeted {
     currentTarget: HTMLInputElement;
     target: Element;
 }
-export interface TextAreaTargeted{
+export interface TextAreaTargeted {
+    currentTarget: HTMLTextAreaElement;
+    target: Element;
+}
+export interface TextAreaInputTargeted {
     currentTarget: HTMLTextAreaElement;
     target: HTMLTextAreaElement;
 }
