@@ -10,7 +10,8 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab"
+		"indentStyle": "space",
+		"indentWidth": 3
 	},
 	"linter": {
 		"enabled": true,
@@ -22,6 +23,9 @@
 			},
 			"correctness": {
 				"noUndeclaredVariables": "error"
+			},
+			"style": {
+				"noNonNullAssertion": "off"
 			}
 		}
 	},

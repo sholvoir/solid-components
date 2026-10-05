@@ -45,7 +45,7 @@ export default () => {
         <InputTextArea binding={txt} />
         {code()}
         <DropDown class="border rounded" cindex={[code, setCode]} options={countryCodes.map(o=>o.label)} title="Unied States"/>
-        <div class="grow flex flex-col"><Tab cindex={cindex} class="grow bg-[var(--bg-tab)]">
+        <div class="grow flex flex-col"><Tab cindex={cindex} class="grow bg-(--bg-tab)">
             <div title="Single Select"><SSelect cindex={sslec} options={options.map(o=>o.label)}/></div>
             <fieldset class="border px-2">
                 <legend>Multi Select</legend>
