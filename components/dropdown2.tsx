@@ -2,27 +2,33 @@ import { createSignal, For, type JSX, Show, splitProps } from "solid-js";
 import ButtonBase from "./button-base.tsx";
 import type { DivTargeted } from "./targeted.ts";
 import "./dropdown.css";
+import type { ILabelValue } from "./label-value.ts";
 
 export default (
    props: {
-      value: string;
-      onChange: (string) => void;
-      options: Array<string>;
+      value: ILabelValue;
+      options: Array<ILabelValue>;
+      onChange: (o: ILabelValue) => void;
       activeClass?: string;
    } & JSX.HTMLAttributes<HTMLButtonElement>,
 ) => {
    const [local, others] = splitProps(props, [
       "value",
-      "onChange",
+      "label",
+      "cindex",
       "options",
+      "onChange",
       "activeClass",
       "class",
    ]);
    const [isOpen, setOpen] = createSignal(false);
-   const handleItemClick = (v: string, e: MouseEvent & DivTargeted) => {
+   const handleItemClick = (
+      option: ILabelValue,
+      e: MouseEvent & DivTargeted,
+   ) => {
       e.stopPropagation();
+      local.onChange(option);
       setOpen(false);
-      local.onChange(v);
    };
    return (
       <ButtonBase
@@ -32,7 +38,7 @@ export default (
          {...others}
          onClick={() => setOpen((x) => !x)}
       >
-         <span>{local.value}</span>
+         <span>{local.value.label ?? local.value.value}</span>
          <span class="icon--mdi icon--mdi--chevron-down text-[150%] align-bottom" />
          <Show when={isOpen()}>
             <div
@@ -43,9 +49,9 @@ export default (
                   {(option) => (
                      <div
                         onClick={[handleItemClick, option]}
-                        class={`px-2 ${option === local.value ? local.activeClass : ""}`}
+                        class={`px-2 ${option.value === local.value.value ? local.activeClass : ""}`}
                      >
-                        {option}
+                        {option.label ?? option.value}
                      </div>
                   )}
                </For>

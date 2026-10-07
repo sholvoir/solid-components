@@ -1,41 +1,37 @@
-import {
-   createSignal,
-   For,
-   type JSX,
-   Show,
-   type Signal,
-   splitProps,
-} from "solid-js";
+import { createSignal, For, type JSX, Show, splitProps } from "solid-js";
 import type { DivTargeted, InputTargeted } from "./targeted.ts";
 
 export default (
    props: {
-      binding: Signal<string>;
       options: Iterable<string>;
       maxSuggest?: number;
+      onInput?: (v: string) => void;
       onChange?: (v: string) => void;
    } & JSX.InputHTMLAttributes<HTMLInputElement>,
 ) => {
-   let containerDiv: HTMLDivElement;
+   let containerDiv!: HTMLDivElement;
    let suggestionDiv: HTMLDivElement;
    const [local, others] = splitProps(props, [
       "class",
-      "binding",
+      "value",
       "options",
       "maxSuggest",
+      "onInput",
       "onChange",
    ]);
-   const [value, setValue] = local.binding;
    const [atDownside, setDownside] = createSignal(true);
    const max = local.maxSuggest ?? 12;
    const [suggestions, setSuggestions] = createSignal<Array<string>>([]);
    const handleBlur = () => setTimeout(() => setSuggestions([]), 200);
    const handleKeyPress = (e: KeyboardEvent & InputTargeted) => {
       e.stopPropagation();
-      e.key === "Enter" && handleBlur() && local.onChange?.(value());
+      e.key === "Enter" &&
+         handleBlur() &&
+         local.onChange?.(e.currentTarget.value);
    };
    const handleInput = (e: InputEvent & InputTargeted) => {
-      const text = setValue(e.currentTarget.value);
+      const text = e.currentTarget.value;
+      local.onInput?.(text);
       if (!text) return setSuggestions([]);
       const first: Array<string> = [];
       const second: Array<string> = [];
@@ -55,8 +51,8 @@ export default (
       }
    };
    const suggestionClicked = (e: MouseEvent & DivTargeted) => {
-      setValue(e.currentTarget.textContent ?? "");
-      local.onChange?.(value());
+      local.onInput?.(e.currentTarget.textContent);
+      local.onChange?.(e.currentTarget.textContent);
    };
    return (
       <div
@@ -66,7 +62,7 @@ export default (
          <input
             class="w-full px-2"
             {...others}
-            value={value()}
+            value={local.value}
             onBlur={handleBlur}
             onInput={handleInput}
             onKeyUp={handleKeyPress}

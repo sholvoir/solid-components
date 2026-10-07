@@ -1,42 +1,44 @@
 {
-  "name": "@sholvoir/components",
-  "version": "0.4.6",
-  "description": "",
-  "type": "module",
-  "scripts": {
-    "start": "vite",
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "dependencies": {
-    "@sholvoir/generic": "npm:@jsr/sholvoir__generic",
-    "solid-js": "^1.9.15"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.1.3",
-    "@iconify/json": "^2.2.538",
-    "@iconify/tailwind4": "^1.2.3",
-    "@tailwindcss/vite": "^4.3.3",
-    "solid-devtools": "^0.34.5",
-    "tailwindcss": "^4.3.3",
-    "vite": "^8.3.2",
-    "vite-plugin-solid": "^2.11.14"
-  },
-  "exports": {
-    "./button-base": "./components/button-base.tsx",
-    "./button-ripple": "./components/button-ripple.tsx",
-    "./checkbox": "./components/checkbox.tsx",
-    "./dropdown": "./components/dropdown.tsx",
-    "./input-number": "./components/input-number.tsx",
-    "./input-simple": "./components/input-simple.tsx",
-    "./input-text": "./components/input-text.tsx",
-    "./input-textarea": "./components/input-textarea.tsx",
-    "./list": "./components/list.tsx",
-    "./select-multi": "./components/select-multi.tsx",
-    "./select-single": "./components/select-single.tsx",
-    "./tab": "./components/tab.tsx",
-    "./tailwind.css": "./components/tailwind.css",
-    "./targeted": "./components/targeted.ts"
-  }
+   "name": "@sholvoir/components",
+   "version": "0.5.0",
+   "description": "",
+   "type": "module",
+   "scripts": {
+      "start": "vite",
+      "dev": "vite",
+      "build": "vite build",
+      "serve": "vite preview"
+   },
+   "dependencies": {
+      "@sholvoir/generic": "npm:@jsr/sholvoir__generic",
+      "solid-js": "^1.9.15"
+   },
+   "devDependencies": {
+      "@biomejs/biome": "2.1.3",
+      "@iconify/json": "^2.2.538",
+      "@iconify/tailwind4": "^1.2.3",
+      "@tailwindcss/vite": "^4.3.3",
+      "solid-devtools": "^0.34.5",
+      "tailwindcss": "^4.3.3",
+      "vite": "^8.3.2",
+      "vite-plugin-solid": "^2.11.14"
+   },
+   "exports": {
+      "./button-base": "./components/button-base.tsx",
+      "./button-ripple": "./components/button-ripple.tsx",
+      "./checkbox": "./components/checkbox.tsx",
+      "./dropdown": "./components/dropdown.tsx",
+      "./dropdown2": "./components/dropdown2.tsx",
+      "./input-number": "./components/input-number.tsx",
+      "./input-text": "./components/input-text.tsx",
+      "./list": "./components/list.tsx",
+      "./select-single": "./components/select-single.tsx",
+      "./select-single2": "./components/select-single2.tsx",
+      "./select-multi": "./components/select-multi.tsx",
+      "./select-multi2": "./components/select-multi2.tsx",
+      "./tab": "./components/tab.tsx",
+      "./label-value": "./components/label-value.ts",
+      "./tailwind.css": "./components/tailwind.css",
+      "./targeted": "./components/targeted.ts"
+   }
 }
