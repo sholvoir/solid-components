@@ -6,6 +6,9 @@ import { countryCodes } from "../components/country-code.ts";
 import DropDown from "../components/dropdown.tsx";
 import DropDown2 from "../components/dropdown2.tsx";
 import InputText from "../components/input-text.tsx";
+import type { ILabelValue } from "../components/label-value.ts";
+import ListFor from "../components/list-for.tsx";
+import ListIndex from "../components/list-index.tsx";
 import MSelect from "../components/select-multi.tsx";
 import MSelect2 from "../components/select-multi2.tsx";
 import SSelect from "../components/select-single.tsx";
@@ -41,6 +44,8 @@ export default () => {
    ];
    const [mslec1, setMslec1] = createSignal(["a", "p"]);
    const [mslec2, setMslec2] = createSignal(["1", "5"]);
+   const [clist1, setClist1] = createSignal<ILabelValue>();
+   const [clist2, setClist2] = createSignal(0);
    return (
       <div class="p-2 flex flex-col gap-2 h-dvh">
          <BButton onClick={() => setEnable1((e) => !e)}>
@@ -72,7 +77,7 @@ export default () => {
             class="border rounded"
             value={num()}
             onChange={(n) => setNum(+n)}
-            options={["1", "2", "3", "4"]}
+            options={["1", "3", "9", "6"]}
          />
          {`${code().value} -- ${code().label}`}
          <DropDown2
@@ -82,6 +87,27 @@ export default () => {
             options={countryCodes}
             title="Unied States"
          />
+         <div>
+            clist1: {clist1()?.label} - {clist1()?.value}
+         </div>
+         <div class="border px-2">
+            <ListFor
+               activeClass="bg-(--bg-tab)"
+               options={options}
+               func={(t) => t.label}
+               value={clist1()}
+               onItemSelect={setClist1}
+            />
+         </div>
+         <div>clist2: {clist2()}</div>
+         <div class="border px-2">
+            <ListIndex
+               activeClass="bg-(--bg-tab)"
+               cindex={clist2()}
+               onItemSelect={setClist2}
+               options={arr}
+            />
+         </div>
          <div class="grow flex flex-col">
             <Tab cindex={cindex} class="grow bg-(--bg-tab)">
                <div title="Single Select" class="flex gap-2">

@@ -4,18 +4,18 @@ import "./checkbox.css";
 
 export default (
    props: {
-      value: boolean;
-      onChange: (v: boolean) => void;
-      label?: string;
       disabled?: boolean;
+      label?: string;
+      onChange: (v: boolean) => void;
+      value: boolean;
    } & JSX.HTMLAttributes<HTMLDivElement>,
 ) => {
    const [local, others] = splitProps(props, [
       "class",
-      "value",
-      "label",
       "disabled",
+      "label",
       "onChange",
+      "value",
    ]);
    const handleClick = (e: MouseEvent & DivTargeted) => {
       e.stopPropagation();

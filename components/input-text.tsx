@@ -1,25 +1,25 @@
-import { createSignal, For, type JSX, Show, splitProps } from "solid-js";
+import { createSignal, Index, type JSX, Show, splitProps } from "solid-js";
 import type { DivTargeted, InputTargeted } from "./targeted.ts";
+import { usePopup } from "./use-popup.ts";
 
 export default (
    props: {
-      options: Iterable<string>;
       maxSuggest?: number;
-      onInput?: (v: string) => void;
       onChange?: (v: string) => void;
+      onInput?: (v: string) => void;
+      options: Iterable<string>;
    } & JSX.InputHTMLAttributes<HTMLInputElement>,
 ) => {
-   let containerDiv!: HTMLDivElement;
-   let suggestionDiv: HTMLDivElement;
    const [local, others] = splitProps(props, [
       "class",
-      "value",
-      "options",
       "maxSuggest",
-      "onInput",
       "onChange",
+      "onInput",
+      "options",
+      "value",
    ]);
-   const [atDownside, setDownside] = createSignal(true);
+   const { els, adjustSide } = usePopup();
+
    const max = local.maxSuggest ?? 12;
    const [suggestions, setSuggestions] = createSignal<Array<string>>([]);
    const handleBlur = () => setTimeout(() => setSuggestions([]), 200);
@@ -41,14 +41,7 @@ export default (
          if (first.length >= max) break;
       }
       setSuggestions(first.concat(second.slice(0, max - first.length)));
-      if (suggestionDiv) {
-         setDownside(
-            containerDiv.getBoundingClientRect().bottom +
-               suggestionDiv.getBoundingClientRect().height +
-               4 <
-               window.innerHeight,
-         );
-      }
+      adjustSide();
    };
    const suggestionClicked = (e: MouseEvent & DivTargeted) => {
       local.onInput?.(e.currentTarget.textContent);
@@ -56,7 +49,7 @@ export default (
    };
    return (
       <div
-         ref={containerDiv}
+         ref={(el) => (els.container = el)}
          class={`inline-block relative ${local.class ?? ""}`}
       >
          <input
@@ -69,16 +62,12 @@ export default (
          />
          <Show when={suggestions().length}>
             <div
-               ref={suggestionDiv}
-               class={`absolute border bg-(--bg-body) z-100 inset-x-0 px-2 ${
-                  atDownside()
-                     ? "top-[calc(100%+4px)]"
-                     : "bottom-[calc(100%+4px)]"
-               }`}
+               ref={(el) => (els.popup = el)}
+               class="absolute border bg-(--bg-body) z-100 inset-x-0 px-2"
             >
-               <For each={suggestions()}>
+               <Index each={suggestions()}>
                   {(s) => <div onClick={suggestionClicked}>{s}</div>}
-               </For>
+               </Index>
             </div>
          </Show>
       </div>

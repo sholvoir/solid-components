@@ -1,45 +1,61 @@
-import { createSignal, For, type JSX, Show, splitProps } from "solid-js";
+import {
+   type Accessor,
+   createSignal,
+   Index,
+   type JSX,
+   Show,
+   splitProps,
+} from "solid-js";
 import ButtonBase from "./button-base.tsx";
 import type { DivTargeted } from "./targeted.ts";
 import "./dropdown.css";
+import { usePopup } from "./use-popup.ts";
 
 export default (
    props: {
-      value: string;
-      onChange: (string) => void;
-      options: Array<string>;
       activeClass?: string;
+      onChange: (v: string) => void;
+      options: readonly string[];
+      value: string;
    } & JSX.HTMLAttributes<HTMLButtonElement>,
 ) => {
    const [local, others] = splitProps(props, [
-      "value",
-      "onChange",
-      "options",
       "activeClass",
       "class",
+      "onChange",
+      "options",
+      "value",
    ]);
+   const { els, adjustSide } = usePopup();
    const [isOpen, setOpen] = createSignal(false);
-   const handleItemClick = (v: string, e: MouseEvent & DivTargeted) => {
+   const handleButtonClick = () => {
+      if (setOpen((x) => !x)) adjustSide();
+   };
+   const handleItemClick = (
+      v: Accessor<string>,
+      e: MouseEvent & DivTargeted,
+   ) => {
       e.stopPropagation();
       setOpen(false);
-      local.onChange(v);
+      local.onChange(v());
    };
    return (
       <ButtonBase
+         ref={(el) => (els.container = el)}
          class={`relative px-2 flex gap-2 justify-between items-center ${
             local.class ?? ""
          }`}
          {...others}
-         onClick={() => setOpen((x) => !x)}
+         onClick={handleButtonClick}
       >
          <span>{local.value}</span>
          <span class="icon--mdi icon--mdi--chevron-down text-[150%] align-bottom" />
          <Show when={isOpen()}>
             <div
-               class="absolute top-[calc(100%+4px)] max-h-64 z-100 bg-(--bg-body)
-                inset-x-0 border overflow-y-auto text-left"
+               ref={(el) => (els.popup = el)}
+               class="absolute max-h-64 z-100 bg-(--bg-body) inset-x-0 border overflow-y-auto text-left"
             >
-               <For each={local.options}>
+               <Index each={local.options}>
                   {(option) => (
                      <div
                         onClick={[handleItemClick, option]}
@@ -48,7 +64,7 @@ export default (
                         {option}
                      </div>
                   )}
-               </For>
+               </Index>
             </div>
          </Show>
       </ButtonBase>
