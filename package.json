@@ -1,6 +1,6 @@
 {
    "name": "@sholvoir/components",
-   "version": "0.5.1",
+   "version": "0.5.2",
    "description": "",
    "type": "module",
    "scripts": {
@@ -31,7 +31,8 @@
       "./dropdown2": "./components/dropdown2.tsx",
       "./input-number": "./components/input-number.tsx",
       "./input-text": "./components/input-text.tsx",
-      "./list": "./components/list.tsx",
+      "./list-for": "./components/list-for.tsx",
+      "./list-index": "./components/list-index.tsx",
       "./select-single": "./components/select-single.tsx",
       "./select-single2": "./components/select-single2.tsx",
       "./select-multi": "./components/select-multi.tsx",
