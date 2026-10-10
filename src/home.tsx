@@ -13,12 +13,14 @@ import MSelect from "../components/select-multi.tsx";
 import MSelect2 from "../components/select-multi2.tsx";
 import SSelect from "../components/select-single.tsx";
 import SSelect2 from "../components/select-single2.tsx";
-import Tab from "../components/tab.tsx";
+import Tab1 from "../components/tab-for.tsx";
+import Tab2 from "../components/tab-index.tsx";
 
 export default () => {
    const [enable1, setEnable1] = createSignal(false);
    const [enable2, setEnable2] = createSignal(false);
-   const cindex = createSignal(0);
+   const [cindex1, setCIndex1] = createSignal(0);
+   const [current, setCurrent] = createSignal<ILabelValue>();
    const [checkbox1, setCheckbox1] = createSignal(false);
    const [text, setText] = createSignal("");
    const [sslec, setSslec] = createSignal("c");
@@ -108,46 +110,47 @@ export default () => {
                options={arr}
             />
          </div>
-         <div class="grow flex flex-col">
-            <Tab cindex={cindex} class="grow bg-(--bg-tab)">
-               <div title="Single Select" class="flex gap-2">
-                  <div>{sslec()}</div>
-                  <div>
-                     <SSelect
-                        value={sslec()}
-                        onChange={setSslec}
-                        options={arr}
-                     />
-                  </div>
-                  <div>{sslec2()}</div>
-                  <div>
-                     <SSelect2
-                        value={sslec2()}
-                        onChange={setSslec2}
-                        options={options}
-                     />
-                  </div>
-               </div>
-               <fieldset class="border px-2 flex gap-2">
-                  <legend>Multi Select</legend>
-                  <div>
-                     <div>{mslec1().join(",")}</div>
-                     <MSelect
-                        values={mslec1()}
-                        onChange={setMslec1}
-                        options={arr}
-                     />
-                  </div>
-                  <div>
-                     <div>{mslec2().join(",")}</div>
-                     <MSelect2
-                        values={mslec2()}
-                        onChange={setMslec2}
-                        options={options}
-                     />
-                  </div>
-               </fieldset>
-            </Tab>
+         <div>{sslec()}</div>
+         <div>
+            <SSelect value={sslec()} onChange={setSslec} options={arr} />
+         </div>
+         <div>{sslec2()}</div>
+         <div>
+            <SSelect2 value={sslec2()} onChange={setSslec2} options={options} />
+         </div>
+         <fieldset class="border px-2 flex gap-2">
+            <legend>Multi Select</legend>
+            <div>
+               <div>{mslec1().join(",")}</div>
+               <MSelect values={mslec1()} onChange={setMslec1} options={arr} />
+            </div>
+            <div>
+               <div>{mslec2().join(",")}</div>
+               <MSelect2
+                  values={mslec2()}
+                  onChange={setMslec2}
+                  options={options}
+               />
+            </div>
+         </fieldset>
+         <div class="border">
+            <Tab1
+               activeClass="bg-(--bg-tab)"
+               current={current()}
+               func={(t) => t.label ?? ""}
+               onTabSelected={setCurrent}
+               options={options}
+            />
+            <div class="p-2 bg-(--bg-tab)">{current()?.value}</div>
+         </div>
+         <div class="border">
+            <Tab2
+               activeClass="bg-(--bg-tab)"
+               cindex={cindex1()}
+               onTabSelected={setCIndex1}
+               options={arr}
+            />
+            <div class="p-2 bg-(--bg-tab)">{cindex1()}</div>
          </div>
       </div>
    );

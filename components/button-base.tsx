@@ -22,9 +22,9 @@ export default (props: JSX.ButtonHTMLAttributes<HTMLButtonElement>) => {
       <button
          type="button"
          class={`disabled:opacity-50 ${local.class ?? ""}`}
-         {...others}
          onClick={handleClick}
          disabled={!enabled() || local.disabled}
+         {...others}
       >
          {local.children}
       </button>

@@ -1,44 +1,41 @@
-import {
-	type Accessor,
-	children,
-	For,
-	type JSX,
-	Show,
-	type Signal,
-} from "solid-js";
+import { For, type JSX, splitProps } from "solid-js";
 import type { DivTargeted } from "./targeted.ts";
 
-export default (
-	props: {
-		cindex: Signal<number>;
-	} & JSX.HTMLAttributes<HTMLElement>,
+export default <T,>(
+   props: {
+      activeClass: string;
+      current?: T;
+      func: (t: T) => string;
+      onTabSelected: (t: T) => void;
+      options: readonly T[];
+   } & JSX.HTMLAttributes<HTMLElement>,
 ) => {
-	const c = children(() => props.children);
-	const [cindex, setCIndex] = props.cindex;
-	const childs = (Array.isArray(c()) ? c() : [c()]) as Array<Element>;
-	const handleClick = (i: Accessor<number>, e: MouseEvent & DivTargeted) => {
-		e.stopPropagation();
-		setCIndex(i);
-	};
-	return (
-		<Show when={childs.length}>
-			<header class="flex gap-2">
-				<For each={childs}>
-					{(child, i) => (
-						<div
-							class={`min-w-16 px-2 py-1 cursor-pointer text-center rounded-t-md ${
-								cindex() === i() ? (props.class ?? "") : ""
-							}`}
-							onClick={[handleClick, i]}
-						>
-							{(child as HTMLElement).title || i()}
-						</div>
-					)}
-				</For>
-			</header>
-			<section class={`grow p-2 ${props.class ?? ""}`}>
-				{childs[cindex()]}
-			</section>
-		</Show>
-	);
+   const [local, others] = splitProps(props, [
+      "activeClass",
+      "class",
+      "current",
+      "func",
+      "onTabSelected",
+      "options",
+   ]);
+   const handleClick = (o: T, e: MouseEvent & DivTargeted) => {
+      e.stopPropagation();
+      local.onTabSelected(o);
+   };
+   return (
+      <header class={`flex gap-2 ${local.class ?? ""}`} {...others}>
+         <For each={local.options}>
+            {(option) => (
+               <div
+                  class={`min-w-16 px-2 py-1 cursor-pointer text-center rounded-t-lg ${
+                     option === local.current ? local.activeClass : ""
+                  }`}
+                  onClick={[handleClick, option]}
+               >
+                  {local.func(option)}
+               </div>
+            )}
+         </For>
+      </header>
+   );
 };
