@@ -1,6 +1,6 @@
 {
    "name": "@sholvoir/components",
-   "version": "0.5.4",
+   "version": "0.5.5",
    "description": "",
    "type": "module",
    "scripts": {
@@ -26,20 +26,18 @@
       "./button-base": "./components/button-base.tsx",
       "./button-ripple": "./components/button-ripple.tsx",
       "./checkbox": "./components/checkbox.tsx",
-      "./dropdown": "./components/dropdown-index.tsx",
-      "./dropdown2": "./components/dropdown-for.tsx",
+      "./dropdown": "./components/dropdown.tsx",
+      "./dropdown2": "./components/dropdown2.tsx",
       "./input-number": "./components/input-number.tsx",
       "./input-text": "./components/input-text.tsx",
-      "./list": "./components/list-index.tsx",
-      "./list2": "./components/list-for.tsx",
-      "./select-single": "./components/select-single-index.tsx",
-      "./select-single2": "./components/select-single-for.tsx",
-      "./select-multi": "./components/select-multi-index.tsx",
-      "./select-multi2": "./components/select-multi-for.tsx",
-      "./tab": "./components/tab-index.tsx",
-      "./tab2": "./components/tab-for.tsx",
-      "./label-value": "./components/label-value.ts",
-      "./tailwind.css": "./components/tailwind.css",
+      "./list": "./components/list.tsx",
+      "./list2": "./components/list2.tsx",
+      "./select-single": "./components/select-single.tsx",
+      "./select-single2": "./components/select-single2.tsx",
+      "./select-multi": "./components/select-multi.tsx",
+      "./select-multi2": "./components/select-multi2.tsx",
+      "./tab": "./components/tab.tsx",
+      "./tab2": "./components/tab2.tsx",
       "./targeted": "./components/targeted.ts"
    }
 }
