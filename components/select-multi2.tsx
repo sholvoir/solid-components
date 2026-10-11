@@ -1,36 +1,41 @@
-import { For } from "solid-js";
+import { For, splitProps } from "solid-js";
 import type { DivTargeted } from "./targeted.ts";
 import "./checkbox.css";
-import type { ILabelValue } from "./label-value.ts";
+import { itemClass, spanClass } from "./select-common.ts";
 
-export default (props: {
-   values: Array<string>;
-   onChange: (vs: Set<string>) => void;
-   options: Iterable<ILabelValue>;
-}) => {
-   const handleClick = (o: string, e: MouseEvent & DivTargeted) => {
+export default <T,>(
+   props: {
+      onChange: (vs: Array<T>) => void;
+      options: readonly T[];
+      showFunc: (t: T) => string;
+      values: Array<T>;
+   } & JSX.HTMLAttributes<HTMLDivElement>,
+) => {
+   const [local, others] = splitProps(props, [
+      "class",
+      "onChange",
+      "options",
+      "showFunc",
+      "values",
+   ]);
+   const handleClick = (o: T, e: MouseEvent & DivTargeted) => {
       e.stopPropagation();
-      props.onChange(
-         props.values.includes(o)
-            ? props.values.filter((v) => v !== o)
-            : [...props.values, o],
+      local.onChange(
+         local.values.includes(o)
+            ? local.values.filter((v) => v !== o)
+            : [...local.values, o],
       );
    };
    return (
-      <For each={props.options}>
-         {(option: ILabelValue) => (
+      <For each={local.options}>
+         {(option) => (
             <div
-               class="flex gap-1 cursor-pointer items-center"
-               onClick={[handleClick, option.value]}
+               class={itemClass(local.class)}
+               onClick={[handleClick, option]}
+               {...others}
             >
-               <span
-                  class={`align-bottom icon--material-symbols ${
-                     props.values.includes(option.value)
-                        ? "icon--material-symbols--check-box-outline"
-                        : "icon--material-symbols--check-box-outline-blank"
-                  }`}
-               />
-               <span>{option.label ?? option.value}</span>
+               <span class={spanClass(local.values.includes(option))} />
+               <span>{local.showFunc(option)}</span>
             </div>
          )}
       </For>

@@ -1,33 +1,37 @@
-import { For } from "solid-js";
+import { Index, splitProps } from "solid-js";
 import type { DivTargeted } from "./targeted.ts";
 import "./checkbox.css";
+import { itemClass, spanClass } from "./select-common.ts";
 
-export default (props: {
-   value: string;
-   onChange: (v: string) => void;
-   options: Iterable<string>;
-}) => {
-   const handleClick = (o: string, e: MouseEvent & DivTargeted) => {
+export default (
+   props: {
+      index: number;
+      onChange: (i: number) => void;
+      options: readonly string[];
+   } & JSX.HTMLAttributes<HTMLDivElement>,
+) => {
+   const [local, others] = splitProps(props, [
+      "index",
+      "class",
+      "onChange",
+      "options",
+   ]);
+   const handleClick = (i: number, e: MouseEvent & DivTargeted) => {
       e.stopPropagation();
-      props.onChange(o);
+      local.onChange(i);
    };
    return (
-      <For each={props.options}>
-         {(option) => (
+      <Index each={local.options}>
+         {(option, i) => (
             <div
-               class="flex gap-1 cursor-pointer items-center"
-               onClick={[handleClick, option]}
+               class={itemClass(local.class)}
+               onClick={[handleClick, i]}
+               {...others}
             >
-               <span
-                  class={`align-bottom icon--material-symbols ${
-                     option === props.value
-                        ? "icon--material-symbols--check-box-outline"
-                        : "icon--material-symbols--check-box-outline-blank"
-                  }`}
-               />
-               <span>{option}</span>
+               <span class={spanClass(i === local.index)} />
+               <span>{option()}</span>
             </div>
          )}
-      </For>
+      </Index>
    );
 };

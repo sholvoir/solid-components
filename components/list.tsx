@@ -4,14 +4,14 @@ import type { DivTargeted } from "./targeted.ts";
 export default (
    props: {
       activeClass?: string;
-      cindex: number;
+      index: number;
       onItemSelect: (i: number) => void;
       options: readonly string[];
    } & JSX.HTMLAttributes<HTMLDivElement>,
 ) => {
    const [local, others] = splitProps(props, [
       "activeClass",
-      "cindex",
+      "index",
       "class",
       "onItemSelect",
       "options",
@@ -25,7 +25,7 @@ export default (
          {(option, i) => (
             <div
                onClick={[handleClick, i]}
-               class={`${local.class ?? ""} ${local.cindex === i ? local.activeClass : ""}`}
+               class={`${local.class ?? ""} ${local.index === i ? local.activeClass : ""}`}
                {...others}
             >
                {option()}

@@ -1,10 +1,11 @@
 import { Index, type JSX, splitProps } from "solid-js";
+import { headerClass, tabItemClass } from "./tab-common.ts";
 import type { DivTargeted } from "./targeted.ts";
 
 export default (
    props: {
       activeClass: string;
-      cindex: number;
+      index: number;
       onTabSelected: (i: number) => void;
       options: readonly string[];
    } & JSX.HTMLAttributes<HTMLElement>,
@@ -12,7 +13,7 @@ export default (
    const [local, others] = splitProps(props, [
       "activeClass",
       "class",
-      "cindex",
+      "index",
       "onTabSelected",
       "options",
    ]);
@@ -21,13 +22,11 @@ export default (
       local.onTabSelected(i);
    };
    return (
-      <header class={`flex gap-2 ${local.class ?? ""}`} {...others}>
+      <header class={`${headerClass} ${local.class ?? ""}`} {...others}>
          <Index each={local.options}>
             {(option, i) => (
                <div
-                  class={`min-w-16 px-2 py-1 cursor-pointer text-center rounded-t-md ${
-                     local.cindex === i ? local.activeClass : ""
-                  }`}
+                  class={`${tabItemClass} ${local.index === i ? local.activeClass : ""}`}
                   onClick={[handleClick, i]}
                >
                   {option()}

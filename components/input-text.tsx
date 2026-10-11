@@ -6,7 +6,7 @@ export default (
    props: {
       maxSuggest?: number;
       onChange?: (v: string) => void;
-      onInput?: (v: string) => void;
+      onInput: (v: string) => void;
       options: Iterable<string>;
    } & JSX.InputHTMLAttributes<HTMLInputElement>,
 ) => {
@@ -19,7 +19,6 @@ export default (
       "value",
    ]);
    const { els, adjustSide } = usePopup();
-
    const max = local.maxSuggest ?? 12;
    const [suggestions, setSuggestions] = createSignal<Array<string>>([]);
    const handleBlur = () => setTimeout(() => setSuggestions([]), 200);

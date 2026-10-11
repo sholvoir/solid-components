@@ -1,38 +1,37 @@
 import { For, type JSX, splitProps } from "solid-js";
+import { headerClass, tabItemClass } from "./tab-common.ts";
 import type { DivTargeted } from "./targeted.ts";
 
 export default <T,>(
    props: {
       activeClass: string;
-      current?: T;
-      func: (t: T) => string;
+      current: T;
       onTabSelected: (t: T) => void;
       options: readonly T[];
+      showFunc: (t: T) => string;
    } & JSX.HTMLAttributes<HTMLElement>,
 ) => {
    const [local, others] = splitProps(props, [
       "activeClass",
       "class",
       "current",
-      "func",
       "onTabSelected",
       "options",
+      "showFunc",
    ]);
    const handleClick = (o: T, e: MouseEvent & DivTargeted) => {
       e.stopPropagation();
       local.onTabSelected(o);
    };
    return (
-      <header class={`flex gap-2 ${local.class ?? ""}`} {...others}>
+      <header class={`${headerClass} ${local.class ?? ""}`} {...others}>
          <For each={local.options}>
             {(option) => (
                <div
-                  class={`min-w-16 px-2 py-1 cursor-pointer text-center rounded-t-lg ${
-                     option === local.current ? local.activeClass : ""
-                  }`}
+                  class={`${tabItemClass} ${option === local.current ? local.activeClass : ""}`}
                   onClick={[handleClick, option]}
                >
-                  {local.func(option)}
+                  {local.showFunc(option)}
                </div>
             )}
          </For>

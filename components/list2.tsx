@@ -4,23 +4,23 @@ import type { DivTargeted } from "./targeted.ts";
 export default <T,>(
    props: {
       activeClass?: string;
-      func: (t: T) => string;
-      onItemSelect?: (t: T) => void;
-      options: Array<T>;
-      value?: T;
+      onItemSelect?: (item: T) => void;
+      options: readonly T[];
+      showFunc: (t: T) => string;
+      value: T;
    } & JSX.HTMLAttributes<HTMLDivElement>,
 ) => {
    const [local, others] = splitProps(props, [
       "activeClass",
       "class",
-      "func",
       "onItemSelect",
       "options",
+      "showFunc",
       "value",
    ]);
-   const handleClick = (option: T, e: MouseEvent & DivTargeted) => {
+   const handleClick = (item: T, e: MouseEvent & DivTargeted) => {
       e.stopPropagation();
-      local.onItemSelect(option);
+      local.onItemSelect(item);
    };
    return (
       <For each={local.options}>
@@ -30,7 +30,7 @@ export default <T,>(
                class={`${local.class ?? ""} ${local.value === option ? local.activeClass : ""}`}
                {...others}
             >
-               {local.func(option)}
+               {local.showFunc(option)}
             </div>
          )}
       </For>

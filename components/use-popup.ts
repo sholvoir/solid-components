@@ -1,3 +1,4 @@
+const sty = "calc(100% + 4px)";
 export const usePopup = () => {
    const els: {
       container?: HTMLElement;
@@ -9,8 +10,8 @@ export const usePopup = () => {
          const prect = els.popup.getBoundingClientRect();
          const shouldDown =
             crect.bottom + prect.height + 4 < window.innerHeight;
-         els.popup.style.top = shouldDown ? "calc(100%+4px)" : undefined;
-         els.popup.style.bottom = shouldDown ? undefined : "calc(100%+4px)";
+         els.popup.style.top = shouldDown ? sty : undefined;
+         els.popup.style.bottom = shouldDown ? undefined : sty;
       }
    };
    return { els, adjustSide };

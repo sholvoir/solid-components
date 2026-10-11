@@ -9,11 +9,10 @@ export default (
    } & JSX.InputHTMLAttributes<HTMLInputElement>,
 ) => {
    const [local, others] = splitProps(props, ["class"]);
-   const [invalid, setInvalid] = createSignal(true);
+   const [invalid, setInvalid] = createSignal(false);
    const handleInput = (e: InputEvent & InputTargeted) => {
       const num = +e.currentTarget.value;
-      if (Number.isNaN(num)) return setInvalid(false);
-      props.onInput(num);
+      if (!setInvalid(Number.isNaN(num))) props.onInput(num);
    };
    return (
       <input

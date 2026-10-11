@@ -1,62 +1,46 @@
-import { createSignal, For, type JSX, Show, splitProps } from "solid-js";
-import ButtonBase from "./button-base.tsx";
+import { createSignal, For, type JSX, splitProps } from "solid-js";
+import DropdownCommon from "./dropdown-common.tsx";
 import type { DivTargeted } from "./targeted.ts";
-import "./dropdown.css";
-import type { ILabelValue } from "./label-value.ts";
 
-export default (
+export default <T,>(
    props: {
-      value: ILabelValue;
-      options: Array<ILabelValue>;
-      onChange: (o: ILabelValue) => void;
       activeClass?: string;
+      onChange: (item: T) => void;
+      options: readonly T[];
+      popupClass?: string;
+      showFunc?: (t: T) => string;
+      value: T;
    } & JSX.HTMLAttributes<HTMLButtonElement>,
 ) => {
    const [local, others] = splitProps(props, [
-      "value",
-      "label",
-      "cindex",
-      "options",
-      "onChange",
       "activeClass",
-      "class",
+      "onChange",
+      "options",
+      "showFunc",
+      "value",
    ]);
    const [isOpen, setOpen] = createSignal(false);
-   const handleItemClick = (
-      option: ILabelValue,
-      e: MouseEvent & DivTargeted,
-   ) => {
+   const handleItemClick = (item: T, e: MouseEvent & DivTargeted) => {
       e.stopPropagation();
-      local.onChange(option);
+      local.onChange(item);
       setOpen(false);
    };
    return (
-      <ButtonBase
-         class={`relative px-2 flex gap-2 justify-between items-center ${
-            local.class ?? ""
-         }`}
+      <DropdownCommon
+         current={local.showFunc?.(local.value)}
+         open={[isOpen, setOpen]}
          {...others}
-         onClick={() => setOpen((x) => !x)}
       >
-         <span>{local.value.label ?? local.value.value}</span>
-         <span class="icon--mdi icon--mdi--chevron-down text-[150%] align-bottom" />
-         <Show when={isOpen()}>
-            <div
-               class="absolute top-[calc(100%+4px)] max-h-64 z-100 bg-(--bg-body)
-                inset-x-0 border overflow-y-auto text-left"
-            >
-               <For each={local.options}>
-                  {(option) => (
-                     <div
-                        onClick={[handleItemClick, option]}
-                        class={`px-2 ${option.value === local.value.value ? local.activeClass : ""}`}
-                     >
-                        {option.label ?? option.value}
-                     </div>
-                  )}
-               </For>
-            </div>
-         </Show>
-      </ButtonBase>
+         <For each={local.options}>
+            {(option) => (
+               <div
+                  onClick={[handleItemClick, option]}
+                  class={`px-2 ${option === local.value ? local.activeClass : ""}`}
+               >
+                  {option.label ?? option.value}
+               </div>
+            )}
+         </For>
+      </DropdownCommon>
    );
 };

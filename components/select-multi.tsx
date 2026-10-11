@@ -1,37 +1,41 @@
-import { For } from "solid-js";
+import { Index, splitProps } from "solid-js";
 import type { DivTargeted } from "./targeted.ts";
 import "./checkbox.css";
+import { itemClass, spanClass } from "./select-common.ts";
 
-export default (props: {
-   values: Array<string>;
-   onChange: (vs: Set<string>) => void;
-   options: Iterable<string>;
-}) => {
-   const handleClick = (o: string, e: MouseEvent & DivTargeted) => {
+export default (
+   props: {
+      indexes: Array<number>;
+      onChange: (is: Array<number>) => void;
+      options: readonly string[];
+   } & JSX.HTMLAttributes<HTMLDivElement>,
+) => {
+   const [local, others] = splitProps(props, [
+      "class",
+      "indexes",
+      "onChange",
+      "options",
+   ]);
+   const handleClick = (i: number, e: MouseEvent & DivTargeted) => {
       e.stopPropagation();
-      props.onChange(
-         props.values.includes(o)
-            ? props.values.filter((v) => v !== o)
-            : [...props.values, o],
+      local.onChange(
+         local.indexes.includes(i)
+            ? local.indexes.filter((v) => v !== i)
+            : [...local.indexes, i],
       );
    };
    return (
-      <For each={props.options}>
-         {(option) => (
+      <Index each={local.options}>
+         {(option, i) => (
             <div
-               class="flex gap-1 cursor-pointer items-center"
-               onClick={[handleClick, option]}
+               class={itemClass(local.class)}
+               onClick={[handleClick, i]}
+               {...others}
             >
-               <span
-                  class={`align-bottom icon--material-symbols ${
-                     props.values.includes(option)
-                        ? "icon--material-symbols--check-box-outline"
-                        : "icon--material-symbols--check-box-outline-blank"
-                  }`}
-               />
-               <span>{option}</span>
+               <span class={spanClass(local.indexes.includes(i))} />
+               <span>{option()}</span>
             </div>
          )}
-      </For>
+      </Index>
    );
 };
