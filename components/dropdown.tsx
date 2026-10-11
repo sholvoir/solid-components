@@ -6,10 +6,10 @@ export default (
    props: {
       activeClass?: string;
       index: number;
-      onChange: (i: number) => void;
+      onSelect: (i: number) => void;
       options: readonly string[];
       popupClass?: string;
-   } & JSX.HTMLAttributes<HTMLButtonElement>,
+   } & Omit<JSX.HTMLAttributes<HTMLButtonElement>, "onSelect">,
 ) => {
    const [local, others] = splitProps(props, [
       "activeClass",
@@ -20,7 +20,7 @@ export default (
    const [isOpen, setOpen] = createSignal(false);
    const handleItemClick = (i: number, e: MouseEvent & DivTargeted) => {
       e.stopPropagation();
-      local.onChange(i);
+      local.onSelect(i);
       setOpen(false);
    };
    return (
@@ -35,7 +35,7 @@ export default (
                   onClick={[handleItemClick, i]}
                   class={`px-2 ${i === local.index ? local.activeClass : ""}`}
                >
-                  {option}
+                  {option()}
                </div>
             )}
          </Index>

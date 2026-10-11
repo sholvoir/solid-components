@@ -26,7 +26,7 @@ export default () => {
             activeClass="bg-(--bg-tab)"
             class="border rounded w-48"
             index={index()}
-            onChange={setIndex}
+            onSelect={setIndex}
             options={arr}
          />
          <span>
@@ -35,7 +35,7 @@ export default () => {
          <DropDown2
             activeClass="bg-(--bg-tab)"
             class="border rounded w-96"
-            onChange={setCode}
+            onSelect={setCode}
             options={countryCodes}
             showFunc={(c) => c.label}
             value={code()}

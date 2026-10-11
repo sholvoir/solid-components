@@ -5,12 +5,12 @@ import type { DivTargeted } from "./targeted.ts";
 export default <T,>(
    props: {
       activeClass?: string;
-      onChange: (item: T) => void;
+      onSelect: (item: T) => void;
       options: readonly T[];
       popupClass?: string;
       showFunc?: (t: T) => string;
       value: T;
-   } & JSX.HTMLAttributes<HTMLButtonElement>,
+   } & Omit<JSX.HTMLAttributes<HTMLButtonElement>, "onSelect">,
 ) => {
    const [local, others] = splitProps(props, [
       "activeClass",
@@ -22,7 +22,7 @@ export default <T,>(
    const [isOpen, setOpen] = createSignal(false);
    const handleItemClick = (item: T, e: MouseEvent & DivTargeted) => {
       e.stopPropagation();
-      local.onChange(item);
+      local.onSelect(item);
       setOpen(false);
    };
    return (
