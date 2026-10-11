@@ -13,7 +13,7 @@ export default (props: JSX.ButtonHTMLAttributes<HTMLButtonElement>) => {
       e.stopPropagation();
       setEnabled(false);
       if (local.onClick)
-         await (typeof props.onClick === "function"
+         await (typeof local.onClick === "function"
             ? local.onClick(e)
             : local.onClick[0](local.onClick[1], e));
       setEnabled(true);

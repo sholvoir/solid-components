@@ -8,7 +8,7 @@ export default (
       onChange?: (v: string) => void;
       onInput: (v: string) => void;
       options: Iterable<string>;
-   } & Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "onInput", "onChange">,
+   } & Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "onInput" | "onChange">,
 ) => {
    const [local, others] = splitProps(props, [
       "class",
