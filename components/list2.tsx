@@ -20,7 +20,7 @@ export default <T,>(
    ]);
    const handleClick = (item: T, e: MouseEvent & DivTargeted) => {
       e.stopPropagation();
-      local.onItemSelect(item);
+      local.onItemSelect?.(item);
    };
    return (
       <For each={local.options}>
