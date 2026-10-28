@@ -8,7 +8,7 @@ export default (
       label?: string;
       onChange: (v: boolean) => void;
       value: boolean;
-   } & JSX.HTMLAttributes<HTMLDivElement>,
+   } & Omit<JSX.HTMLAttributes<HTMLDivElement>, "onChange">,
 ) => {
    const [local, others] = splitProps(props, [
       "class",
